@@ -3,6 +3,6 @@
  */
 public class NormalZombie extends Zombie {
     public NormalZombie() {
-        super(1, 10, 40, "Normal Zombie");
+        super(3, 10, 50, "Normal Zombie");
     }
 }

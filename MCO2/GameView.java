@@ -4,7 +4,7 @@ import java.awt.event.*;
 
 public class GameView extends JFrame {
     private Board board;
-    private JLabel sunLabel;
+    private JLabel sunLabel, timerLabel;
     private JButton sunflowerBtn, peashooterBtn;
     private JButton[][] gridButtons;
     private JPanel boardPanel;
@@ -40,6 +40,9 @@ public class GameView extends JFrame {
         sunLabel = new JLabel("Sun: 50");
         controls.add(sunLabel);
 
+        timerLabel = new JLabel("Time: 00:00");
+        controls.add(timerLabel);
+
         add(controls, BorderLayout.SOUTH);
     }
 
@@ -58,6 +61,11 @@ public class GameView extends JFrame {
 
     public void setSun(int sun) {
         sunLabel.setText("Sun: " + sun);
+    }
+
+    public void setTimer(int seconds) {
+        int min = seconds / 60, sec = seconds % 60;
+        timerLabel.setText(String.format("Time: %02d:%02d", min, sec));
     }
 
     // Update the grid display based on board state

@@ -3,6 +3,6 @@
  */
 public class ConeheadZombie extends Zombie {
     public ConeheadZombie() {
-        super(2, 8, 100, "Conehead Zombie");
+        super(3, 8, 100, "z3"); // Renamed to
     }
 }

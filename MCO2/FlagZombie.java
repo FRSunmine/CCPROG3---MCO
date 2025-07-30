@@ -3,6 +3,6 @@
  */
 public class FlagZombie extends Zombie {
     public FlagZombie() {
-        super(5, 10, 60, "Flag Zombie");
+        super(4, 10, 50, "z2"); // Renamed to z2
     }
 }

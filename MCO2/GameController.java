@@ -11,9 +11,13 @@ public class GameController {
     private List<Plant> plants = new ArrayList<>();
     private Timer timer;
     private Random rand = new Random();
+    private int time = 180; // Start at 3 minutes
 
     // Placement mode: which plant to place, or null if not placing
     private Plant plantToPlace = null;
+
+    private int zombieSpawnCounter = 0;
+    private int zombieSpawnRate = 5; // Spawn a zombie every 3 ticks (increase this number to make it even slower)
 
     public GameController(Board board, GameView view) {
         this.board = board;
@@ -59,6 +63,7 @@ public class GameController {
 
     private void updateView() {
         view.setSun(sun);
+        view.setTimer(time); // Update the timer on the view
         view.refresh();
     }
 
@@ -68,20 +73,29 @@ public class GameController {
     }
 
     private void gameTick() {
-        // 1. Possibly spawn a zombie
-        if (rand.nextInt(3) == 0) { // ~33% chance per tick
-            int row = rand.nextInt(board.getRows());
-            Zombie z = ZombieFactory.createRandomZombie(1);
-            z.setPosition(row, board.getCols() - 1);
-            board.placeZombie(z, row, board.getCols() - 1);
-            zombies.add(z);
+        time--; // Decrement timer
+
+        // Spawn zombie less frequently
+        zombieSpawnCounter++;
+        if (zombieSpawnCounter >= zombieSpawnRate) {
+            if (rand.nextInt(3) == 0) { // ~33% chance per spawn interval
+                int row = rand.nextInt(board.getRows());
+                Zombie z = ZombieFactory.createRandomZombie(1);
+                z.setPosition(row, board.getCols() - 1);
+                board.placeZombie(z, row, board.getCols() - 1);
+                zombies.add(z);
+            }
+            zombieSpawnCounter = 0;
         }
 
         // 2. Plants act
         for (Plant p : new ArrayList<>(plants)) {
             p.act(board, zombies);
             if (p instanceof Sunflower) {
-                sun += 25;
+                Sunflower s = (Sunflower) p;
+                if (s.canGenerateSun()) {
+                    sun += 25;
+                }
             }
         }
 
@@ -123,6 +137,12 @@ public class GameController {
         }
         zombies.removeIf(z -> !z.isAlive());
         plants.removeIf(p -> !p.isAlive());
+        // Win condition for plants
+        if (time <= 0) {
+            timer.stop();
+            JOptionPane.showMessageDialog(view, "Time's up! Plants win!");
+            return;
+        }
         updateView();
     }
 }
