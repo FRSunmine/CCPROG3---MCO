@@ -87,30 +87,42 @@ public class GameController {
 
         // 3. Zombies move and attack
         for (Zombie z : new ArrayList<>(zombies)) {
+            if (!z.isAlive()) {
+                board.removeZombie(z.getRow(), z.getCol());
+                zombies.remove(z);
+            }
+        }
+        for (Zombie z : new ArrayList<>(zombies)) {
             if (!z.isAlive()) continue;
-            int row = z.getRow();
-            int col = z.getCol();
-            Plant target = null;
-            if (col > 0) {
-                target = board.getPlantAt(row, col - 1);
-            }
-            if (target != null && target.isAlive()) {
-                target.takeDamage(z.getDamage());
-                if (!target.isAlive()) {
-                    board.removePlant(row, col - 1); // Remove dead plant
-                    plants.remove(target);
+            z.incrementMoveCounter();
+            if (z.getMoveCounter() >= z.getSpeed()) {
+                int row = z.getRow();
+                int col = z.getCol();
+                Plant target = null;
+                if (col > 0) {
+                    target = board.getPlantAt(row, col - 1);
                 }
-            } else {
-                board.moveZombie(z);
-                z.setCol(z.getCol() - 1);
-            }
-            if (z.getCol() <= 0) {
-                timer.stop();
-                JOptionPane.showMessageDialog(view, "Game Over! A zombie reached your house!");
-                return;
+                if (target != null && target.isAlive()) {
+                    target.takeDamage(z.getDamage());
+                    if (!target.isAlive()) {
+                        board.removePlant(row, col - 1);
+                        plants.remove(target);
+                    }
+                    // Zombie stays in place if attacking
+                } else {
+                    board.moveZombie(z); // This should handle updating zombie's position
+                    // Do NOT decrement z.setCol() here, it's handled in moveZombie
+                }
+                z.resetMoveCounter();
+                if (z.getCol() <= 0) {
+                    timer.stop();
+                    JOptionPane.showMessageDialog(view, "Game Over! A zombie reached your house!");
+                    return;
+                }
             }
         }
         zombies.removeIf(z -> !z.isAlive());
+        plants.removeIf(p -> !p.isAlive());
         updateView();
     }
 }

@@ -5,7 +5,7 @@ import java.util.List;
 
 public class Peashooter extends Plant {
     public Peashooter() {
-        super(100, 50, 20, "Peashooter");
+        super(50, 50, 20, "Peashooter");
     }
 
     @Override

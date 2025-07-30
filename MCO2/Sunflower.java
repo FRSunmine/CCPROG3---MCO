@@ -5,7 +5,7 @@ import java.util.List;
 
 public class Sunflower extends Plant {
     public Sunflower() {
-        super(50, 50, 0, "Sunflower");
+        super(25, 50, 0, "Sunflower");
     }
 
     @Override

@@ -65,14 +65,14 @@ public class GameView extends JFrame {
         for (int r = 0; r < board.getRows(); r++) {
             for (int c = 0; c < board.getCols(); c++) {
                 JButton btn = gridButtons[r][c];
-                Plant p = board.getPlantAt(r, c);
                 Zombie z = board.getZombieAt(r, c);
-                if (p != null) {
-                    btn.setText(p.getType().substring(0, 1)); // S for Sunflower, P for Peashooter
-                    btn.setBackground(p instanceof Sunflower ? Color.YELLOW : Color.GREEN);
-                } else if (z != null) {
+                Plant p = board.getPlantAt(r, c);
+                if (z != null) {
                     btn.setText("Z");
                     btn.setBackground(Color.LIGHT_GRAY);
+                } else if (p != null) {
+                    btn.setText(p.getType().substring(0, 1));
+                    btn.setBackground(p instanceof Sunflower ? Color.YELLOW : Color.GREEN);
                 } else {
                     btn.setText("");
                     btn.setBackground(null);

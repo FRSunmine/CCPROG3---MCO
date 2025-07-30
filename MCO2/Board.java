@@ -41,20 +41,18 @@ public class Board {
         int row = z.getRow();
         int col = z.getCol();
         if (col > 0) {
-            zombies[row][col] = null;
+            zombies[row][col] = null; // Clear old position
             if (plants[row][col - 1] != null) {
                 // Attack plant
                 Plant p = plants[row][col - 1];
                 p.takeDamage(z.getDamage());
-                System.out.printf("%s attacked %s at Row %d, Col %d\n", z.getType(), p.getType(), row + 1, col);
                 if (!p.isAlive()) {
                     plants[row][col - 1] = null;
-                    System.out.printf("%s destroyed at Row %d, Col %d\n", p.getType(), row + 1, col);
                 }
+                zombies[row][col] = z; // Stay in place if attacking
             } else {
-                z.setCol(col - 1);
-                zombies[row][col - 1] = z;
-                System.out.printf("%s moved to Row %d, Col %d\n", z.getType(), row + 1, col);
+                z.setCol(col - 1); // Move left
+                zombies[row][col - 1] = z; // Set new position
             }
         }
     }
@@ -87,6 +85,11 @@ public class Board {
     public void removePlant(int row, int col) {
         if (inBounds(row, col)) {
             plants[row][col] = null;
+        }
+    }
+    public void removeZombie(int row, int col) {
+        if (inBounds(row, col)) {
+            zombies[row][col] = null;
         }
     }
 }
