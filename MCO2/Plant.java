@@ -1,8 +1,8 @@
-import java.util.List;
-
 /**
  * Abstract class for all plants.
  */
+import java.util.List;
+
 public abstract class Plant {
     protected int cost, health, damage, row, col;
     protected String type;

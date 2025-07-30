@@ -1,6 +1,8 @@
 /**
  * Sunflower plant.
  */
+import java.util.List;
+
 public class Sunflower extends Plant {
     public Sunflower() {
         super(50, 50, 0, "Sunflower");

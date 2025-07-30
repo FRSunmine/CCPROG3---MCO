@@ -6,7 +6,9 @@ import java.util.*;
  */
 public class Main {
     public static void main(String[] args) {
-        Game game = new Game(5, 9); // 5 lanes, 9 tiles per lane
-        game.start();
+        Board board = new Board(5, 9);
+        GameView view = new GameView(board);
+        GameController controller = new GameController(board, view);
+        view.setVisible(true);
     }
 }

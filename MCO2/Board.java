@@ -74,4 +74,19 @@ public class Board {
             System.out.println();
         }
     }
+
+    public Plant getPlantAt(int row, int col) {
+        if (row >= 0 && row < rows && col >= 0 && col < cols) return plants[row][col];
+        return null;
+    }
+    public Zombie getZombieAt(int row, int col) {
+        if (row >= 0 && row < rows && col >= 0 && col < cols) return zombies[row][col];
+        return null;
+    }
+
+    public void removePlant(int row, int col) {
+        if (inBounds(row, col)) {
+            plants[row][col] = null;
+        }
+    }
 }
