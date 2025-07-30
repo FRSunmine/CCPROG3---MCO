@@ -1,3 +1,8 @@
+/**
+ * The GUI view for the Plants vs Zombies game.
+ * Displays the board as a grid of buttons, shows sun and timer,
+ * and provides controls for plant selection and placement.
+ */
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
@@ -9,6 +14,10 @@ public class GameView extends JFrame {
     private JButton[][] gridButtons;
     private JPanel boardPanel;
 
+    /**
+     * Constructs the game view and initializes all GUI components.
+     * @param board the game board to display
+     */
     public GameView(Board board) {
         this.board = board;
         setTitle("Plants vs Zombies - School Project");
@@ -46,29 +55,52 @@ public class GameView extends JFrame {
         add(controls, BorderLayout.SOUTH);
     }
 
-    // For controller to add listeners to plant buttons
+    /**
+     * Adds an ActionListener to the sunflower button.
+     * @param l the ActionListener
+     */
     public void addSunflowerButtonListener(ActionListener l) {
         sunflowerBtn.addActionListener(l);
     }
+
+    /**
+     * Adds an ActionListener to the peashooter button.
+     * @param l the ActionListener
+     */
     public void addPeashooterButtonListener(ActionListener l) {
         peashooterBtn.addActionListener(l);
     }
 
-    // For controller to add listeners to grid buttons
+    /**
+     * Adds an ActionListener to a specific grid button.
+     * @param row the row index
+     * @param col the column index
+     * @param l the ActionListener
+     */
     public void addGridButtonListener(int row, int col, ActionListener l) {
         gridButtons[row][col].addActionListener(l);
     }
 
+    /**
+     * Updates the sun label with the current sun value.
+     * @param sun the current sun amount
+     */
     public void setSun(int sun) {
         sunLabel.setText("Sun: " + sun);
     }
 
+    /**
+     * Updates the timer label with the remaining time.
+     * @param seconds the time in seconds
+     */
     public void setTimer(int seconds) {
         int min = seconds / 60, sec = seconds % 60;
         timerLabel.setText(String.format("Time: %02d:%02d", min, sec));
     }
 
-    // Update the grid display based on board state
+    /**
+     * Refreshes the board display to show the current state of plants and zombies.
+     */
     public void refresh() {
         for (int r = 0; r < board.getRows(); r++) {
             for (int c = 0; c < board.getCols(); c++) {

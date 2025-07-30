@@ -2,7 +2,10 @@ import java.util.*;
 import java.util.concurrent.*;
 
 /**
- * Represents the main game logic and simulation loop with improved timer.
+ * Console-based simulation for Plants vs Zombies.
+ * Handles the main game logic, simulation loop, user input, and board updates.
+ * Uses a scheduled executor for real-time ticking and supports plant placement,
+ * zombie spawning, and win/loss conditions.
  */
 public class Game {
     private Board board;
@@ -15,12 +18,18 @@ public class Game {
     private Random rand = new Random();
     private volatile boolean gameOver = false;
 
+    /**
+     * Constructs a new game with the specified board size.
+     * @param rows number of rows
+     * @param cols number of columns
+     */
     public Game(int rows, int cols) {
         board = new Board(rows, cols);
     }
 
     /**
      * Starts the simulation loop with a real-time timer.
+     * Handles zombie spawning, plant actions, user input, and win/loss conditions.
      */
     public void start() {
         System.out.println("Welcome to Plants vs Zombies Console Simulation!");
@@ -82,6 +91,11 @@ public class Game {
         }
     }
 
+    /**
+     * Determines if a zombie should be generated at the given time.
+     * @param t the current time in seconds
+     * @return true if a zombie should spawn, false otherwise
+     */
     private boolean shouldGenerateZombie(int t) {
         if (t >= 30 && t <= 80 && t % 10 == 0) return true;
         if (t >= 81 && t <= 140 && t % 5 == 0) return true;
@@ -90,6 +104,10 @@ public class Game {
         return false;
     }
 
+    /**
+     * Handles user actions for planting.
+     * Prompts the user for plant type and position, and places the plant if possible.
+     */
     private void userActions() {
         try {
             Thread.sleep(500); // Prevents busy waiting
